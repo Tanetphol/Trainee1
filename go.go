@@ -12,10 +12,12 @@ func main() {
 		if unicode.IsLetter(r) {
 			fmt.Println("alphabet checked")
 		} else if unicode.IsNumber(r) {
+			fmt.Println("number คิคิ")
 			fmt.Println("number checked")
 		} else {
 			fmt.Println("nor number or alphabet")
 		}
 
 	}
+	fmt.Println("จบบ")
 }
