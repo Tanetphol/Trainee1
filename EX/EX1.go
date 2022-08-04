@@ -8,9 +8,12 @@ import (
 )
 
 var input string = "h99 ส!"
-var sum int
 
 func main() {
+	sum := new(int)
+	defer func() {
+		fmt.Print(*sum)
+	}()
 	input = strings.Replace(input, " ", "", -1)
 	for _, r := range input {
 		if r >= 'ก' && r <= 'ฮ' {
@@ -20,10 +23,9 @@ func main() {
 		} else if unicode.IsPunct(r) {
 			fmt.Printf("%c", r)
 		} else if unicode.IsNumber(r) {
-			str := string(r) //x is rune converted to string
-			int, _ := strconv.Atoi(str)
-			sum += int
+			str := string(r)
+			int1, _ := strconv.Atoi(str)
+			*sum += int1
 		}
 	}
-	defer fmt.Println(sum)
 }
