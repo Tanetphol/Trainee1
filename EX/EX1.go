@@ -1,4 +1,4 @@
-package main
+package EX
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 
 var input string = "h9999 ส!"
 
-func main() {
+func Cal() {
 	sum := 0
 	defer func() {
 		sum = reverseNumber(sum)
