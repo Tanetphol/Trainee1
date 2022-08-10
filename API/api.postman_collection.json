@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "c80af5b1-6154-4e94-a17c-2f60a32944aa",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "apiwitherror",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rq_body\": {\n        \"disbursement_amount\": 35000,\n        \"number_of_payment\": 4,\n        \"interest_rate\": 9.12,\n        \"payment_frequency\": 1,\n        \"payment_unit\": \"M\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/dloan-payment/v1/calculate-installment-amount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"dloan-payment",
+						"v1",
+						"calculate-installment-amount"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
