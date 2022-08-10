@@ -22,7 +22,7 @@ func Api() {
 	r := mux.NewRouter()
 	r.HandleFunc("/dloan-payment/v1/calculate-installment-amount", getdata).Methods("POST")
 	r.HandleFunc("/", get).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8001", r))
+	log.Fatal(http.ListenAndServe(":8002", r))
 
 }
 
