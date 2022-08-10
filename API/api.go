@@ -39,23 +39,23 @@ func getdata(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// rqbody := rq_body{Disbursement_amount: 35000, Number_of_payment: 4, Interest_rate: 9.12000, Payment_frequency: 1, Payment_unit: "M"}
-	rqbody.Interest_rate = rqbody.Interest_rate / 100 / 12
-	res := rqbody.Disbursement_amount / ((1 - (1 / (math.Pow(1+rqbody.Interest_rate, float64(rqbody.Number_of_payment))))) / rqbody.Interest_rate)
+	rqbody.Body.Interest_rate = rqbody.Body.Interest_rate / 100 / 12
+	res := rqbody.Body.Disbursement_amount / ((1 - (1 / (math.Pow(1+rqbody.Body.Interest_rate, float64(rqbody.Body.Number_of_payment))))) / rqbody.Body.Interest_rate)
 	// fmt.Fprintln(w, res)
 	// json.NewEncoder(w).Encode(res)
 
 	//Response
-	response := Response{}
+	response := Response{Body: ResponseBody{Installment_amount: res}}
 
-	json.NewEncoder(w).Encode(response)
+	// json.NewEncoder(w).Encode(response)
 	//  หรือ
-	// js, err := json.Marshal(response)
-	// if err != nil {
-	// 	fmt.Fprintln(w, "error", err)
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
-	// w.Write(js)
+	js, err := json.Marshal(response)
+	if err != nil {
+		fmt.Fprintln(w, "error", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(js)
 	// reposne  ที่ตอบกลับอยากได้ format แบบนี้
 	// {
 	// 	"rs_body": {
