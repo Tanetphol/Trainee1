@@ -1,8 +1,6 @@
 package main
 
-import EXbeaw "github.com/TN-INCOPERATION/Trainee1/EXPbeaw"
-
-
+import "github.com/TN-INCOPERATION/Trainee1/API"
 func main() {
-	EXbeaw.Ex2()
+	API.Api()
 }
