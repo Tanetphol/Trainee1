@@ -45,7 +45,11 @@ func getdata(w http.ResponseWriter, r *http.Request) {
 	// json.NewEncoder(w).Encode(res)
 
 	//Response
-	response := Response{Body: ResponseBody{Installment_amount: res}}
+	response := Response{
+		Body: ResponseBody{
+			Installment_amount: res,
+		},
+	}
 
 	// json.NewEncoder(w).Encode(response)
 	//  หรือ
