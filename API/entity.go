@@ -1,5 +1,9 @@
 package API
 
+import "time"
+type Customtime struct{
+	time.Time
+}
 type Response struct {
 	Body ResponseBody `json:"rs_body"`
 }
@@ -10,9 +14,10 @@ type Request struct {
 type RequestBody struct {
 	Disbursement_amount float64    `json:"disbursement_amount"`
 	Number_of_payment   int  `json:"number_of_payment"`
-	Interest_rate       float64 `json:"interest_rate"`
+	Cal_date			Customtime `json:"cal_date"`
 	Payment_frequency   int     `json:"payment_frequency"`
 	Payment_unit        string  `json:"payment_unit"`
+	Account_number		int		`json:"account_number"`
 }
 
 type ResponseBody struct {
