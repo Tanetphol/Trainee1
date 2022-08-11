@@ -8,9 +8,10 @@ import (
 	"log"
 	"math"
 	"net/http"
-
+	"time"
 	"github.com/gorilla/mux"
 )
+
 const (
     host     = "localhost"
     port     = 5432
@@ -32,19 +33,21 @@ func getdata(w http.ResponseWriter, r *http.Request) {
     CheckError(er,w)
     defer db.Close()
 	var rqbody Request
+	promo := "Promo1"
+	var interest_rate float64
+	// var cal_date time.Time
 	err := json.NewDecoder(r.Body).Decode(&rqbody)
+	// cal_date = datetimetype(rqbody.Body.Cal_date)
 	if err != nil {
-		fmt.Fprintln(w, err.Error())
+		fmt.Fprintln(w, "1.1",err.Error())
 		return
 	}
-	date := rqbody.Body.Cal_date
-	var promo string
-	var interest_rate float64
-	err = db.QueryRow(`SELECT promotion_name FROM "Promotion" where ? between start_date and end_date`,date).Scan(&promo)
+	err = db.QueryRow(`SELECT promotion_name FROM "Promotion" where ? BETWEEN start_date AND end_date`,rqbody.Body.Cal_date).Scan(&promo)
 	fmt.Fprintln(w,"2")
 	CheckError(err,w)
 	err = db.QueryRow(`SELECT interest_rate FROM "Rate" where promotion_name = ?`,promo).Scan(&interest_rate)
 	fmt.Fprintln(w,"3")
+	fmt.Fprintln(w,interest_rate)
 	CheckError(err,w)
 	interest_rate = interest_rate / 100 / 12
 	res := rqbody.Body.Disbursement_amount / ((1 - (1 / (math.Pow(1+interest_rate, float64(rqbody.Body.Number_of_payment))))) / interest_rate)
@@ -53,8 +56,8 @@ func getdata(w http.ResponseWriter, r *http.Request) {
     _, e := db.Exec(insertStmt,35000,4,2.5,1,"M")
 	fmt.Fprintln(w,"4")
     CheckError(e,w)
-	insertres := `insert into "account"("installment_amount") value($1)`
-	_ , e = db.Exec(insertres,res)
+	insertres := `insert into "Account"("installment_amount" , account_number) values($1,$2)`
+	_ , e = db.Exec(insertres,res,rqbody.Body.Account_number)
 	fmt.Fprintln(w,"5")
 	CheckError(e,w)
 	//Response
@@ -79,6 +82,12 @@ func CheckError(err error, w http.ResponseWriter) {
         fmt.Fprintln(w, "error", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
     }
+}
+func datetimetype(x string) time.Time{
+	input := "2017-08-31"
+	layout := "2006-01-02"
+	t, _ := time.Parse(layout, input)
+	return t // 31-Aug-2017
 }
 // type rq_body struct { การประกาศตัวแปร จะนิยมในภาษาgo เป็นแบบ camelCase*******
 // 	Disbursement_amount float64 `json:"disbursement_amount"`
