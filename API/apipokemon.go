@@ -22,9 +22,13 @@ func ApiPokemon() {
 	err = createTablePokemon(*db)
 	checkerr(err)
 	defer db.Close()
-
+	count:= 0
 	for index , value := range pokemon.PokemonEntries{
 		ifDataExistThenInsert(*db,index,value.EntryNumber,value.PokemonSpecies.Name,value.PokemonSpecies.Url)
+		if count == 99{
+			db.Close()
+		}
+		count += 1
 	}
 	
 }
@@ -48,7 +52,7 @@ func createTablePokemon(db sql.DB) error{
 	return nil
 }
 func ifDataExistThenInsert(db sql.DB,index int , entrynumber int , pokemonname string , pokemonurl string) {
-	_,err := db.Query(`SELECT entry_name FROM pokemon WHERE entry_name = ?`,index+1)
+	_,err := db.Query(`SELECT entry_name FROM pokemon WHERE entry_name = ?`,entrynumber)
 	if err != nil{
 		insert:= `INSERT INTO pokemon(entry_number,name,url) values($1,$2,$3)`
 		_,err2 := db.Exec(insert,entrynumber,pokemonname,pokemonurl)
