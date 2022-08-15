@@ -89,11 +89,7 @@ func getdata(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "5")
 	CheckError(e, w)
 	//Response
-	response := Response{
-		Body: ResponseBody{
-			Installment_Amount: res,
-		},
-	}
+	response := Response{Body: ResponseBody{Installment_Amount: res,},}
 	js, err := json.Marshal(response)
 	if err != nil {
 		fmt.Fprintln(w, "error", err)
